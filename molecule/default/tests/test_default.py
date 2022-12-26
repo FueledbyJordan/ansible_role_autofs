@@ -14,7 +14,7 @@ def test_etc_auto_master_d_somename(host):
     assert file.user == 'root'
     assert file.group == 'root'
     assert file.mode == 0o600
-    assert file.content == b'#\n# Ansible managed\n#\n/- /etc/somename --timeout 60\n'  # noqa E501
+    assert file.content == b'#\n# Ansible managed\n#\n/- /etc/auto.somename --timeout 60\n'  # noqa E501
 
 
 def test_etc_auto_master_d_someothername(host):
@@ -22,7 +22,7 @@ def test_etc_auto_master_d_someothername(host):
     assert file.user == 'root'
     assert file.group == 'root'
     assert file.mode == 0o600
-    assert file.content == b'#\n# Ansible managed\n#\n/- /etc/someothername --timeout 60\n'  # noqa E501
+    assert file.content == b'#\n# Ansible managed\n#\n/- /etc/auto.someothername --timeout 60\n'  # noqa E501
 
 
 def test_etc_auto_somename(host):
