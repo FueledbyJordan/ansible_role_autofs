@@ -9,6 +9,22 @@ def test_autofs_service(host):
     assert autofs.is_enabled
 
 
+def test_mount_target_testing_path(host):
+    file = host.file('/TESTING')
+    assert file.user == 'root'
+    assert file.group == 'root'
+    assert file.mode == 0o755
+    assert file.is_directory
+
+
+def test_mount_target_testing_path2(host):
+    file = host.file('/TESTING2')
+    assert file.user == 'root'
+    assert file.group == 'root'
+    assert file.mode == 0o755
+    assert file.is_directory
+
+
 def test_etc_auto_master_d_somename(host):
     file = host.file('/etc/auto.master.d/somename.autofs')
     assert file.user == 'root'
