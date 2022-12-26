@@ -1,0 +1,51 @@
+---
+# tasks file for ansible_role_autofs
+
+- name: Check autofs mounts
+  ansible.builtin.assert:
+    that:
+      - autofs_mounts | length > 0
+
+- name: Check autofs mounts contents
+  ansible.builtin.assert:
+    that:
+      - item.name | d(False)
+      - item.local_path | d(False)
+      - item.remote_host | d(False)
+      - item.remote_path | d(False)
+  with_items: "{{ autofs_mounts }}"
+
+- name: Install autofs
+  ansible.builtin.package:
+    name: autofs
+    state: present
+
+- name: Install automaster.d files
+  ansible.builtin.template:
+    src: automaster.j2
+    dest: /etc/auto.master.d/{{ item.name }}.autofs
+    owner: root
+    group: root
+    mode: '0600'
+  notify: 'Restart autofs'
+  with_items: "{{ autofs_mounts }}"
+
+- name: Install /etc/auto.mounts
+  ansible.builtin.template:
+    src: etc_auto_mount.j2
+    dest: /etc/auto.{{ item.name }}
+    owner: root
+    group: root
+    mode: '0600'
+  notify: 'Restart autofs'
+  with_items: "{{ autofs_mounts }}"
+
+- name: Enable autofs
+  ansible.builtin.service:
+    name: autofs
+    enabled: true
+
+- name: Start autofs
+  ansible.builtin.service:
+    name: autofs
+    state: started

@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    autofs_mounts:
+      - { name: 'somename', local_path: '/TESTING', remote_host: 'test_host', remote_path: '/opt/test_path' }
+      - { name: 'someothername', local_path: '/TESTING2', remote_host: 'test_host2', remote_path: '/opt/test_path2' }
+  tasks:
+    - name: "Include fueledbyjordan.ansible_role_autofs"
+      ansible.builtin.include_role:
+        name: "fueledbyjordan.ansible_role_autofs"

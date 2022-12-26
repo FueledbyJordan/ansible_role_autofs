@@ -1,0 +1,6 @@
+---
+# handlers file for ansible_role_autofs
+- name: 'Restart autofs'
+  ansible.builtin.service:
+    name: autofs
+    state: restarted
